@@ -22,10 +22,11 @@ function tcping(url,ready,onload){
     http.timeout=respondTimeout
     http.send(null)
 }
-function speedtest(url,callBcak,ProgressCallback){
+function speedtest(url,Host,callBack,ProgressCallback){
     var st=time();
     var http=new XMLHttpRequest();
     http.open("GET",url,true);
+    http.setRequestHeader('Host',Host);
     http.onreadystatechange=()=>{
         /*
         cut the initialization time can be more accurate (or the speed will show a state of slow climbing)
@@ -36,7 +37,7 @@ function speedtest(url,callBcak,ProgressCallback){
     http.loadr=0;
     http.onloadend=(e)=>{
         var rbytes=(e.loaded==0)?http.loadr:e.loaded // In Firefox, error or timeout will always return 0
-        callBcak(rbytes,time()-st);
+        callBack(rbytes,time()-st);
     }
     http.onprogress=(e)=>{
         var rbytes=e.loaded;
@@ -47,27 +48,6 @@ function speedtest(url,callBcak,ProgressCallback){
     }
     http.timeout=speedTimeout;
     http.send();
-}
-function Tcping(addr,callback){
-    var st=time();
-    var http = new XMLHttpRequest()
-    http.open("GET",addr,true)
-    http.onreadystatechange=()=>{
-        if (http.readyState==2){
-            if (callback!=null)
-                callback(time()-st),callback=null;
-        }
-        else if(http.readyState==4){
-            if(callback!=null)callback(-1);
-        }
-    }
-    http.onload=()=>{
-        var resp=http.responseText
-        var loc=resp.split("\n")[6].split("=")[1]
-        console.log(loc);
-    }
-    http.timeout = respondTimeout;
-    http.send(null)
 }
 async function getIPs(){
     return await fetch('./ips.csv').then(res=>res.text()).then(res=>res.split('\n'));

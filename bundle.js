@@ -1,7 +1,7 @@
 var sizes=[1048576,10485760,104857600];// 1M,10M,100M
-var ipList=document.getElementById('ipList'),nodes=[];
+var List=document.getElementById('ipList'),nodes=[];
 function show(){
-    ipList.innerHTML='';
+    List.innerHTML='';
     for(var node of nodes){
         var tr=document.createElement('tr');
         var a=document.createElement('td'),b=document.createElement('td'),c=document.createElement('td'),d=document.createElement('td');
@@ -10,7 +10,7 @@ function show(){
         if(node.respondTime)c.innerText=~node.respondTime?node.respondTime.toFixed(2)+'ms':'timeout';
         d.innerText=node.downloadSpeed;
         tr.append(a,b,c,d);
-        ipList.append(tr);
+        List.append(tr);
     }
     mdui.mutation();
     mdui.updateTables();
@@ -20,14 +20,14 @@ function rand(n){
 }
 function pingSelect(all=0){
     nodes.forEach((node,i)=>{
-        if(all||ipList.children[i].classList.contains('mdui-table-row-selected')){
+        if(all||List.children[i].classList.contains('mdui-table-row-selected')){
             tcping(`//${node.ip}/cdn-cgi/trace?${rand(1000)}`,(ms)=>{
                 node.respondTime=ms;
-                ipList.children[i].children[3].innerText=
+                List.children[i].children[3].innerText=
                     ~ms?ms.toFixed(2)+'ms':'timeout';
             },({colo})=>{
                 node.colo=colo;
-                ipList.children[i].children[2].innerText=colo
+                List.children[i].children[2].innerText=colo
             });
         }
     });
@@ -43,9 +43,33 @@ function sortByRespondTime(){
     show();
 }
 
-func
+function speedtestSelect(){
+    nodes.forEach((node,i)=>{
+        if(all||List.children[i].classList.contains('mdui-table-row-selected')){
+            speedtest(``,(rbytes,ms)=>{
+
+            },(rbytes,ms)=>{
+
+            });
+            tcping(`//${node.ip}/cdn-cgi/trace?${rand(1000)}`,(ms)=>{
+                node.respondTime=ms;
+                List.children[i].children[3].innerText=
+                    ~ms?ms.toFixed(2)+'ms':'timeout';
+            },({colo})=>{
+                node.colo=colo;
+                List.children[i].children[2].innerText=colo
+            });
+        }
+    });
+}
 getIPs().then(data=>{
     data.forEach((ip,i)=>{nodes[i]={ip,colo:null,respondTime:null,downloadSpeed:null}});
     show();
     pingSelect(1);
 })
+
+speedtest(`https://speed.cloudflare.com/__down?bytes=100000000`,'speed.cloudflare.com',(rbytes,ms)=>{
+    console.log(rbytes,ms,(rbytes/ms/1.024).toFixed(1)+'KB/s');
+},(rbytes,ms)=>{
+    console.log(rbytes,ms,(rbytes/ms/1.024).toFixed(1)+'KB/s');
+});
