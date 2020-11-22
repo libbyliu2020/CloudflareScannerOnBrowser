@@ -21,7 +21,7 @@ function rand(n){
 function pingSelect(all=0){
     nodes.forEach((node,i)=>{
         if(all||List.children[i].classList.contains('mdui-table-row-selected')){
-            tcping(`//${node.ip}/cdn-cgi/trace?${rand(1000)}`,(ms)=>{
+            tcping(`http://${node.ip}/cdn-cgi/trace?${rand(1000)}`,(ms)=>{
                 node.respondTime=ms;
                 List.children[i].children[3].innerText=
                     ~ms?ms.toFixed(2)+'ms':'timeout';
