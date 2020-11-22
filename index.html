@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang=zh>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css">
+    <title>cloudflare ip scanner on browser</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/zcmimi/cdn@master/avatar/avatar.svg"> -->
+    <meta name="name" itemprop="name" content="cloudflare ip scanner on browser">
+    <meta name="description" itemprop="description" content="cloudflare优选ip网页版">
+    <meta name="keywords" itemprop="keywords" content="cloudflare ip speed test">
+</head>
+
+<body class="mdui-theme-primary-blue mdui-theme-accent-blue mdui-container">
+    <p>
+        <button onclick="pingSelect()" class="mdui-btn">Test Respond Time</button>
+    </p>
+    <table class="mdui-table mdui-table-selectable">
+        <thead>
+            <tr>
+                <th>IP</th>
+                <th>Colo</th>
+                <th onclick="sortByRespondTime()">Respond Time</th>
+                <th>Download Speed</th>
+            </tr>
+        </thead>
+        <tbody id='ipList'></tbody>
+    </table>
+</body>
+<!-- <footer class="mdui-m-t-5">
+    <div class="mdui-card">
+        <div class="mdui-card-content mdui-p-a-5">
+            <div class="mdui-container">
+                <div class="mdui-text-center">
+                    <div>Copyright ©&nbsp;2019-2020&nbsp;zcmimi</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer> -->
+
+<script src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"></script>
+<script src='./core.js'></script>
+<script src='./bundle.js'></script>
+</html>
